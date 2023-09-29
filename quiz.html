@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prometheus Quiz</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Custom CSS for the quiz */
+        body {
+            background-color: #f4f0e5; /* Ancient scroll background color */
+        }
+        #quiz-container {
+            background-color: #f4f0e5; /* Ancient scroll background color */
+            width: 70%;
+            margin: 0 auto;
+            padding: 20px;
+            border: 2px solid #000;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+        }
+        h1 {
+            text-align: center;
+            background-color: #000;
+            color: #fff;
+            padding: 10px;
+        }
+        .question {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+        }
+        .option {
+            font-size: 18px;
+            margin: 5px 0;
+            cursor: pointer;
+        }
+        .option:hover {
+            background-color: #ddd;
+        }
+        .selected {
+            background-color: #333;
+            color: #fff;
+        }
+        #feedback {
+            font-size: 20px;
+            margin-top: 10px;
+        }
+        #next-button {
+            font-size: 18px;
+            background-color: #000;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #next-button:hover {
+            background-color: #333;
+        }
+        /* Custom styles for the audio player */
+        .audio-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Prometheus Quiz</h1>
+    </header>
+    <div id="quiz-container">
+        <div class="question" id="question">Loading question...</div>
+        <div class="options" id="options">
+            <div class="option" data-index="0"></div>
+            <div class="option" data-index="1"></div>
+            <div class="option" data-index="2"></div>
+            <div class="option" data-index="3"></div>
+        </div>
+        <div id="feedback"></div>
+        <button id="next-button" style="display: none;">Next</button>
+    </div>
+
+    <!-- Audio Player -->
+    <div class="audio-player">
+        <audio autoplay loop>
+            <source src="greek.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "What did Prometheus give to humanity?",
+                options: ["Fire", "Water", "Wind", "Earth"],
+                correctAnswer: "Fire"
+            },
+            {
+                question: "Who punished Prometheus for stealing fire?",
+                options: ["Hera", "Poseidon", "Zeus", "Athena"],
+                correctAnswer: "Zeus"
+            },
+            {
+                question: "How was Prometheus punished by Zeus?",
+                options: ["Chained to a rock with his liver eaten by an eagle", "Turned into a tree", "Banished to the underworld", "Transformed into a bird"],
+                correctAnswer: "Chained to a rock with his liver eaten by an eagle"
+            },
+            {
+                question: "Who was Prometheus's brother?",
+                options: ["Atlas", "Epimetheus", "Cronus", "Hephaestus"],
+                correctAnswer: "Epimetheus"
+            },
+            {
+                question: "In some versions, what did Prometheus create the first human from?",
+                options: ["Clay", "Stone", "Wood", "Metal"],
+                correctAnswer: "Clay"
+            }
+        ];
+
+        const quizContainer = document.getElementById("quiz-container");
+        const questionElement = document.getElementById("question");
+        const optionsContainer = document.getElementById("options");
+        const feedbackElement = document.getElementById("feedback");
+        const nextButton = document.getElementById("next-button");
+
+        let currentQuestionIndex = 0;
+        let selectedOption = "";
+        let correctAnswers = 0; // Track correct answers
+
+        function loadQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            questionElement.textContent = currentQuestion.question;
+
+            const optionButtons = document.querySelectorAll(".option");
+            for (let i = 0; i < optionButtons.length; i++) {
+                optionButtons[i].textContent = currentQuestion.options[i];
+                optionButtons[i].classList.remove("selected");
+                optionButtons[i].addEventListener("click", selectOption);
+            }
+        }
+
+        function selectOption(event) {
+            selectedOption = event.target.textContent;
+            document.querySelectorAll(".option").forEach(button => button.classList.remove("selected"));
+            event.target.classList.add("selected");
+            nextButton.style.display = "block";
+        }
+
+        function checkAnswer() {
+            if (selectedOption === questions[currentQuestionIndex].correctAnswer) {
+                feedbackElement.textContent = "Correct!";
+                correctAnswers++;
+            } else {
+                feedbackElement.textContent = "Wrong! The correct answer is: " + questions[currentQuestionIndex].correctAnswer;
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+                feedbackElement.textContent = "";
+                nextButton.style.display = "none";
+            } else {
+                // Display the number of correct answers
+                quizContainer.innerHTML = `<h2>Quiz Completed!</h2>
+                                            <p>You answered ${correctAnswers} out of ${questions.length} questions correctly.</p>`;
+            }
+        }
+
+        nextButton.addEventListener("click", function () {
+            if (selectedOption) {
+                checkAnswer();
+                nextQuestion();
+            } else {
+                feedbackElement.textContent = "Please select an option.";
+            }
+            selectedOption = ""; // Reset selected option
+        });
+
+        loadQuestion();
+    </script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+/* styles.css */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Times New Roman', Times, serif; /* Ancient-style font */
+}
+
+header {
+    background-color: #000; /* Black background for the header */
+    color: #fff; /* White text color */
+    padding: 20px; /* Add padding for spacing */
+}
+
+/* Change the color of the hyperlinks to white */
+nav a {
+    color: #fff; /* White color for links */
+    text-decoration: none; /* Remove underlines from links */
+}
+
+h1 {
+    text-align: center;
+    font-size: 36px; /* Adjust font size as needed */
+    font-weight: bold;
+    margin: 0;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px; /* Add spacing between menu items */
+}
+
+main {
+    padding: 20px; /* Add padding for spacing */
+}
+
+section {
+    background-color: #f6f0e4; /* Ancient scroll-like brownish background */
+    padding: 20px; /* Add padding for spacing */
+    margin-bottom: 20px; /* Add spacing between sections */
+    border: 2px solid #d4c29e; /* Add a border for a scroll-like effect */
+}
+
+/* Add styles for the audio player */
+audio {
+    width: 100%;
+    margin-top: 20px; /* Add spacing between audio player and content */
+}
+
+/* Rest of your CSS styles */
